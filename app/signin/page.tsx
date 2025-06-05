@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import Link from 'next/link';
 import '../styles/auth.scss';
@@ -10,11 +9,16 @@ import '../styles/auth.scss';
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle sign in logic here
     console.log('Sign in:', { email, password });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -41,16 +45,24 @@ export default function SignIn() {
 
           <div className="p-field">
             <label htmlFor="password" className="block mb-2">Password</label>
-            <Password
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full"
-              placeholder="Enter your password"
-              toggleMask
-              feedback={false}
-              required
-            />
+            <div className="custom-password-field">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full"
+                placeholder="Enter password"
+                required
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           <Button type="submit" label="Sign In" className="p-button-primary" />

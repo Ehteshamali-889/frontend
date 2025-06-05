@@ -1,0 +1,126 @@
+// Variables
+$primary-color: #2196F3;
+$secondary-color: #607D8B;
+$success-color: #4CAF50;
+$danger-color: #F44336;
+$warning-color: #FFC107;
+$text-color: #333;
+$text-light: #666;
+$border-color: #e0e0e0;
+$background-light: #f5f5f5;
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$border-radius: 8px;
+
+// Common styles
+.page-container {
+  min-height: 100vh;
+  background-color: $background-light;
+  padding: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: $border-radius;
+  box-shadow: $shadow;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+
+  &-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      color: $text-color;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    p {
+      color: $text-light;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $text-color;
+    font-weight: 500;
+  }
+
+  .p-inputtext,
+  .p-password,
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-password-input {
+    width: 100%;
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+// PrimeReact overrides
+.p-button {
+  &.p-button-primary {
+    background: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      border-color: darken($primary-color, 10%);
+    }
+  }
+
+  &.p-button-text {
+    color: $primary-color;
+
+    &:hover {
+      background: rgba($primary-color, 0.1);
+    }
+  }
+}
+
+.p-inputtext,
+.p-password-input,
+.p-dropdown {
+  &:hover {
+    border-color: $primary-color;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    border-color: $primary-color;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    
+    .p-button {
+      width: 100%;
+    }
+  }
+} 

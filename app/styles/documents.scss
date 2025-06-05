@@ -1,73 +1,442 @@
+@import './common.scss';
+
 .documents-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  @extend .page-container;
 
   .documents-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 
     h1 {
       margin: 0;
-      color: #333;
+      color: $text-color;
+      font-size: 2rem;
+    }
+
+    .p-button {
+      padding: 0.875rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
+      letter-spacing: 0.3px;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba($primary-color, 0.15);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba($primary-color, 0.1);
+      }
+
+      .p-button-icon {
+        margin-right: 0.75rem;
+        font-size: 0.875rem;
+      }
     }
   }
 
   .documents-toolbar {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    background: white;
+    padding: 1rem;
+    border-radius: $border-radius;
+    box-shadow: $shadow;
 
     .p-inputtext {
       min-width: 200px;
+      padding: 0.75rem 1rem;
+      border-radius: $border-radius;
+      border: 2px solid $border-color;
+      transition: all 0.2s ease;
+      font-size: 0.9375rem;
+
+      &:hover {
+        border-color: darken($border-color, 10%);
+      }
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        outline: none;
+      }
+    }
+
+    .p-dropdown {
+      min-width: 150px;
+
+      .p-dropdown-label {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+      }
+
+      .p-dropdown-trigger {
+        width: 2.5rem;
+      }
+
+      &:not(.p-disabled).p-focus {
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        border-color: $primary-color;
+      }
+
+      &:hover {
+        border-color: darken($border-color, 10%);
+      }
     }
   }
 
   .p-datatable {
+    background: white;
+    border-radius: $border-radius;
+    box-shadow: $shadow;
+    overflow: hidden;
+
     .p-datatable-header {
       background: transparent;
       border: none;
-      padding: 0;
+      padding: 1rem;
     }
 
     .p-datatable-thead > tr > th {
-      background: #f8f9fa;
-      color: #495057;
+      background: $background-light;
+      color: $text-color;
       font-weight: 600;
+      padding: 1rem;
+      border-bottom: 2px solid $border-color;
+
+      .p-column-header-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .p-column-title {
+          margin-right: 0.5rem;
+        }
+
+        .p-sortable-column-icon {
+          margin-left: 0.5rem;
+        }
+
+        .p-column-filter-menu-button {
+          margin-left: 0.5rem;
+        }
+      }
     }
 
     .p-datatable-tbody > tr > td {
       padding: 1rem;
+      border-bottom: 1px solid $border-color;
+    }
+
+    .p-datatable-tbody > tr:hover {
+      background: rgba($primary-color, 0.04);
     }
 
     .document-actions {
       display: flex;
       gap: 0.5rem;
+      justify-content: center;
+
+      .p-button {
+        width: 2.5rem;
+        height: 2.5rem;
+        transition: all 0.2s ease;
+        background: transparent !important;
+
+        &:hover {
+          transform: none !important;
+          box-shadow: none !important;
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        &.p-button-primary {
+          color: $primary-color;
+          
+          &:hover {
+            background: rgba($primary-color, 0.1) !important;
+            color: $primary-color !important;
+          }
+        }
+
+        &.p-button-danger {
+          color: $danger-color;
+          
+          &:hover {
+            background: rgba($danger-color, 0.1) !important;
+            color: $danger-color !important;
+          }
+        }
+
+        .p-button-icon {
+          color: inherit;
+        }
+      }
+    }
+
+    .p-paginator {
+      border-top: 1px solid $border-color;
+      padding: 1rem;
     }
   }
 }
 
 // Dialog styles
 .document-dialog {
+  .p-dialog-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid $border-color;
+  }
+
   .p-dialog-content {
-    padding: 2rem;
+    padding: 1.5rem;
+  }
+
+  .p-dialog-footer {
+    padding: 1.5rem;
+    border-top: 1px solid $border-color;
   }
 
   .form-field {
-    margin-bottom: 1.5rem;
+    @extend .form-field;
 
     label {
       display: block;
       margin-bottom: 0.5rem;
+      color: $text-color;
       font-weight: 500;
+      font-size: 0.9375rem;
     }
+
+    .p-inputtext {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+      border-radius: $border-radius;
+      border: 2px solid $border-color;
+      transition: all 0.2s ease;
+      color: $text-color;
+      background-color: white;
+
+      &:hover {
+        border-color: darken($border-color, 10%);
+      }
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        outline: none;
+      }
+
+      &::placeholder {
+        color: lighten($text-light, 10%);
+        font-size: 0.9375rem;
+      }
+
+      &.p-invalid {
+        border-color: $danger-color;
+        
+        &:focus {
+          box-shadow: 0 0 0 3px rgba($danger-color, 0.1);
+        }
+      }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 2rem;
+
+      .p-button {
+        padding: 0.875rem 1.75rem;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+        letter-spacing: 0.3px;
+
+        &.p-button-primary {
+          background: linear-gradient(45deg, $primary-color, lighten($primary-color, 10%));
+          border: none;
+          box-shadow: 0 2px 4px rgba($primary-color, 0.2);
+
+          &:hover {
+            background: linear-gradient(45deg, darken($primary-color, 5%), $primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba($primary-color, 0.15);
+          }
+
+          &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba($primary-color, 0.1);
+          }
+
+          .p-button-icon {
+            margin-right: 0.75rem;
+            font-size: 0.875rem;
+          }
+        }
+
+        &.p-button-text {
+          color: $text-light;
+          font-weight: 500;
+          
+          &:hover {
+            background: rgba($text-light, 0.08);
+            color: darken($text-light, 10%);
+          }
+
+          &:active {
+            background: rgba($text-light, 0.12);
+          }
+        }
+      }
+    }
+
+    .p-dropdown {
+      width: 100%;
+
+      .p-dropdown-label {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+      }
+
+      .p-dropdown-trigger {
+        width: 2.5rem;
+      }
+
+      &:not(.p-disabled).p-focus {
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        border-color: $primary-color;
+      }
+
+      &:hover {
+        border-color: darken($border-color, 10%);
+      }
+    }
+  }
+}
+
+// Status badges
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.draft {
+    background: rgba($warning-color, 0.1);
+    color: darken($warning-color, 10%);
+  }
+
+  &.published {
+    background: rgba($success-color, 0.1);
+    color: darken($success-color, 10%);
+  }
+
+  &.archived {
+    background: rgba($secondary-color, 0.1);
+    color: darken($secondary-color, 10%);
+  }
+}
+
+// Dropdown panel styles
+.p-dropdown-panel {
+  .p-dropdown-items {
+    padding: 0.5rem 0;
+
+    .p-dropdown-item {
+      padding: 0.75rem 1rem;
+      font-size: 0.9375rem;
+      transition: all 0.2s ease;
+      color: $text-color;
+
+      &:hover {
+        background: rgba($primary-color, 0.04);
+        color: $primary-color;
+      }
+
+      &.p-highlight {
+        background: rgba($primary-color, 0.1);
+        color: $primary-color;
+        font-weight: 500;
+      }
+
+      &:focus {
+        box-shadow: none;
+        background: rgba($primary-color, 0.04);
+      }
+    }
+  }
+
+  .p-dropdown-filter {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 0.5rem;
+
+    .p-inputtext {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9375rem;
+      border-radius: $border-radius;
+      border: 1px solid $border-color;
+      width: 100%;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .documents-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+
+    .p-button {
+      width: 100%;
+    }
+  }
+
+  .documents-toolbar {
+    flex-direction: column;
 
     .p-inputtext,
     .p-dropdown {
       width: 100%;
     }
+  }
+
+  .p-datatable {
+    .p-datatable-tbody > tr > td {
+      padding: 0.75rem;
+    }
+  }
+}
+
+.submit-button {
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 } 

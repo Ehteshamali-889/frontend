@@ -14,7 +14,7 @@ interface Document {
   id: number;
   title: string;
   type: string;
-  status: string;
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   createdAt: string;
   updatedAt: string;
 }
@@ -36,7 +36,12 @@ export default function Documents() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<{
+    global: { value: string | null; matchMode: FilterMatchMode };
+    title: { value: string | null; matchMode: FilterMatchMode };
+    type: { value: string | null; matchMode: FilterMatchMode };
+    status: { value: string | null; matchMode: FilterMatchMode };
+  }>({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     title: { value: null, matchMode: FilterMatchMode.CONTAINS },
     type: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -49,7 +54,7 @@ export default function Documents() {
       id: index + 1,
       title: `Document ${index + 1}`,
       type: documentTypes[Math.floor(Math.random() * documentTypes.length)].value,
-      status: documentStatuses[Math.floor(Math.random() * documentStatuses.length)].value,
+      status: documentStatuses[Math.floor(Math.random() * documentStatuses.length)].value as Document['status'],
       createdAt: new Date(Date.now() - Math.random() * 10000000000).toISOString().split('T')[0],
       updatedAt: new Date(Date.now() - Math.random() * 10000000000).toISOString().split('T')[0]
     }));
@@ -96,15 +101,26 @@ export default function Documents() {
       <div className="document-actions">
         <Button
           icon="pi pi-pencil"
-          className="p-button-rounded p-button-text"
+          className="p-button-rounded p-button-text p-button-primary"
           onClick={() => handleEdit(rowData)}
+          tooltip="Edit"
         />
         <Button
           icon="pi pi-trash"
           className="p-button-rounded p-button-text p-button-danger"
           onClick={() => handleDelete(rowData)}
+          tooltip="Delete"
         />
       </div>
+    );
+  };
+
+  const statusBodyTemplate = (rowData: Document) => {
+    const statusClass = rowData.status.toLowerCase();
+    return (
+      <span className={`status-badge ${statusClass}`}>
+        {rowData.status}
+      </span>
     );
   };
 
@@ -146,6 +162,7 @@ export default function Documents() {
           label="Create Document"
           icon="pi pi-plus"
           onClick={handleCreate}
+          className="p-button-primary"
         />
       </div>
 
@@ -160,11 +177,13 @@ export default function Documents() {
         header={header}
         emptyMessage="No documents found."
         className="p-datatable-sm"
+        showGridlines
+        stripedRows
       >
         <Column field="id" header="ID" sortable style={{ width: '5%' }} />
         <Column field="title" header="Title" sortable filter style={{ width: '25%' }} />
         <Column field="type" header="Type" sortable filter style={{ width: '15%' }} />
-        <Column field="status" header="Status" sortable filter style={{ width: '15%' }} />
+        <Column field="status" header="Status" sortable filter body={statusBodyTemplate} style={{ width: '15%' }} />
         <Column field="createdAt" header="Created" sortable style={{ width: '15%' }} />
         <Column field="updatedAt" header="Updated" sortable style={{ width: '15%' }} />
         <Column body={actionBodyTemplate} style={{ width: '10%' }} />
@@ -197,7 +216,7 @@ function DocumentForm({ document, onSave, onCancel }: DocumentFormProps) {
   const [formData, setFormData] = useState<Partial<Document>>({
     title: '',
     type: '',
-    status: ''
+    status: 'DRAFT' as Document['status']
   });
 
   useEffect(() => {
@@ -261,7 +280,17 @@ function DocumentForm({ document, onSave, onCancel }: DocumentFormProps) {
         <Button
           type="submit"
           label={document ? 'Update' : 'Create'}
-          className="p-button-primary"
+          className="p-button-primary submit-button"
+          icon={document ? "pi pi-check" : "pi pi-plus"}
+          iconPos="left"
+          style={{
+            padding: '0.75rem 1.5rem',
+            borderRadius: '8px',
+            fontWeight: '600',
+            transition: 'all 0.2s ease',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            gap: '0.5rem'
+          }}
         />
       </div>
     </form>
