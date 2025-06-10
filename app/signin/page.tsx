@@ -4,17 +4,44 @@ import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import '../styles/auth.scss';
 
 export default function SignIn() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign in logic here
-    console.log('Sign in:', { email, password });
+    setError('');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store the token in localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Redirect to dashboard or home page
+      router.push('/documents');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred during login');
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -66,6 +93,7 @@ export default function SignIn() {
           </div>
 
           <Button type="submit" label="Sign In" className="p-button-primary" />
+          {error && <p className="error-message">{error}</p>}
         </form>
 
         <div className="auth-footer">

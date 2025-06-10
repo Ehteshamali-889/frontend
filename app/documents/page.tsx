@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { FilterMatchMode } from 'primereact/api';
+import { useRouter } from 'next/navigation';
 import '../styles/documents.scss';
 
 interface Document {
@@ -33,6 +34,7 @@ const documentStatuses = [
 ];
 
 export default function Documents() {
+  const router = useRouter();
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
@@ -94,6 +96,14 @@ export default function Documents() {
       setDocuments([...documents, newDocument]);
     }
     setDialogVisible(false);
+  };
+
+  const handleLogout = () => {
+    // Clear user data from localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    // Redirect to sign-in page
+    router.push('/signin');
   };
 
   const actionBodyTemplate = (rowData: Document) => {
@@ -158,12 +168,20 @@ export default function Documents() {
     <div className="documents-container">
       <div className="documents-header">
         <h1>Documents</h1>
-        <Button
-          label="Create Document"
-          icon="pi pi-plus"
-          onClick={handleCreate}
-          className="p-button-primary"
-        />
+        <div className="header-actions">
+          <Button
+            label="Create Document"
+            icon="pi pi-plus"
+            onClick={handleCreate}
+            className="p-button-primary"
+          />
+          <Button
+            label="Logout"
+            icon="pi pi-sign-out"
+            onClick={handleLogout}
+            className="p-button-secondary"
+          />
+        </div>
       </div>
 
       <DataTable
