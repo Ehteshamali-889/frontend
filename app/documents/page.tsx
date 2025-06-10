@@ -11,6 +11,7 @@ import { FilterMatchMode } from 'primereact/api';
 import { useRouter } from 'next/navigation';
 import '../styles/documents.scss';
 import { Toast } from 'primereact/toast';
+import 'primeicons/primeicons.css';
 
 interface Document {
   id: string;
@@ -23,6 +24,18 @@ interface Document {
   createdAt: string;
   updatedAt: string;
 }
+
+// Add simulated summary templates
+const summaryTemplates = [
+  "This document highlights key objectives and goals.",
+  "The content focuses on strategic planning and implementation.",
+  "A comprehensive analysis of market trends and opportunities.",
+  "Detailed overview of project requirements and specifications.",
+  "Summary of key findings and recommendations.",
+  "Document outlines best practices and guidelines.",
+  "Contains important metrics and performance indicators.",
+  "Presents a detailed analysis of current challenges and solutions."
+];
 
 const documentTypes = [
   { label: 'PDF', value: 'PDF' },
@@ -62,6 +75,8 @@ export default function Documents() {
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [detailsDialogVisible, setDetailsDialogVisible] = useState(false);
+  const [summaryDialogVisible, setSummaryDialogVisible] = useState(false);
+  const [generatedSummary, setGeneratedSummary] = useState('');
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const toast = useRef<Toast>(null);
@@ -158,6 +173,24 @@ export default function Documents() {
     }
   };
 
+  const generateSimulatedSummary = (document: Document) => {
+    // Simulate AI processing delay
+    setTimeout(() => {
+      // Randomly select a template or use document description
+      const randomIndex = Math.floor(Math.random() * summaryTemplates.length);
+      const templateSummary = summaryTemplates[randomIndex];
+      
+      // Sometimes use the first 30 words of description
+      const descriptionSummary = document.description.split(' ').slice(0, 30).join(' ');
+      
+      // Randomly choose between template and description
+      const summary = Math.random() > 0.5 ? templateSummary : `Summary: ${descriptionSummary}...`;
+      
+      setGeneratedSummary(summary);
+      setSummaryDialogVisible(true);
+    }, 1000); // Simulate 1 second processing time
+  };
+
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -228,6 +261,12 @@ export default function Documents() {
           className="p-button-rounded p-button-text p-button-primary"
           onClick={() => window.open(`http://localhost:5000/${rowData.fileUrl}`, '_blank')}
           tooltip="Download"
+        />
+        <Button
+          icon="pi pi-file"
+          className="p-button-rounded p-button-text p-button-success"
+          onClick={() => generateSimulatedSummary(rowData)}
+          tooltip="Generate Summary"
         />
         <Button
           icon="pi pi-trash"
@@ -342,6 +381,21 @@ export default function Documents() {
           onCancel={() => setDetailsDialogVisible(false)}
           updating={updating}
         />
+      </Dialog>
+
+      <Dialog
+        visible={summaryDialogVisible}
+        onHide={() => setSummaryDialogVisible(false)}
+        header="AI Generated Summary"
+        className="document-dialog"
+        style={{ width: '500px' }}
+      >
+        <div className="summary-content">
+          <p>{generatedSummary}</p>
+          <div className="summary-footer">
+            <small className="text-muted">* This is a simulated AI-generated summary</small>
+          </div>
+        </div>
       </Dialog>
     </div>
   );
