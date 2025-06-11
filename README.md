@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Document Management System Frontend
 
-## Getting Started
+This is the frontend application for the Document Management System, built with Next.js and PrimeReact.
 
-First, run the development server:
+## Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+## Setup and Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create a `.env.local` file in the root directory with the following variables:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001  # Replace with your backend API URL
+```
+
+## Running the Frontend
+
+### Development Mode
+To run the application in development mode with hot reloading:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
+To create a production build:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
+- Sign in and sign up functionality
+- JWT-based authentication
+- Protected routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Document Management
+- View list of documents
+- Upload new documents
+- View document details
+- Download documents
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Simulated Summarization
+The application includes a simulated document summarization feature that:
+- Processes uploaded documents
+- Generates a summary of the document content
+- Displays the summary alongside the document
+- Updates the summary in real-time as the document is modified
 
-## Deploy on Vercel
+## Known Issues and Limitations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Authentication**
+   - Token refresh mechanism is not implemented
+   - Session persistence relies on localStorage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Document Processing**
+   - Large file uploads may timeout
+   - Limited file format support
+   - Maximum file size: 10MB
+
+3. **Summarization**
+   - Currently uses a simulated summarization service
+   - Processing time may vary based on document size
+   - Limited language support
+
+## Tech Stack
+
+- Next.js 15.3.3
+- React 19
+- PrimeReact 10.9.6
+- TypeScript
+- SASS
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
