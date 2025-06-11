@@ -58,11 +58,35 @@ npm start
 - Download documents
 
 ### Simulated Summarization
-The application includes a simulated document summarization feature that:
-- Processes uploaded documents
-- Generates a summary of the document content
-- Displays the summary alongside the document
-- Updates the summary in real-time as the document is modified
+The application includes a simulated document summarization feature that demonstrates how AI-powered summarization would work without actually using AI APIs. Here's how it works:
+
+1. **Template-Based Generation**
+   - Uses a predefined set of professional summary templates
+   - Randomly selects appropriate templates based on document context
+   - Templates cover common document types and purposes
+
+2. **Smart Content Extraction**
+   - Extracts key information from document descriptions
+   - Creates summaries using the first 30 words of document descriptions
+   - Alternates between template-based and content-based summaries
+
+3. **Realistic Simulation**
+   - Simulates processing delay (1 second) to mimic AI processing time
+   - Provides consistent, professional-looking summaries
+   - Maintains context awareness based on document metadata
+
+4. **Implementation Details**
+   - No external API calls required
+   - Works entirely client-side
+   - Zero latency and no API costs
+   - Perfect for demonstration and testing purposes
+
+This simulation approach allows us to:
+- Demonstrate AI-like functionality without actual AI integration
+- Test the UI/UX of summarization features
+- Provide immediate feedback to users
+- Avoid API costs during development
+- Work offline without external dependencies
 
 ## Known Issues and Limitations
 
