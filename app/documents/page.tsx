@@ -13,6 +13,8 @@ import '../styles/documents.scss';
 import { Toast } from 'primereact/toast';
 import 'primeicons/primeicons.css';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
 interface Document {
   id: string;
   title: string;
@@ -95,7 +97,7 @@ export default function Documents() {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch('http://localhost:5000/api/documents', {
+      const response = await fetch(`${API_BASE_URL}/documents`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -122,7 +124,7 @@ export default function Documents() {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/documents/${documentId}`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -149,7 +151,7 @@ export default function Documents() {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/documents/${documentId}`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -222,7 +224,7 @@ export default function Documents() {
         throw new Error('No authentication token found');
       }
 
-      const response = await fetch(`http://localhost:5000/api/documents/${document.id}`, {
+      const response = await fetch(`${API_BASE_URL}/documents/${document.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -259,7 +261,7 @@ export default function Documents() {
         <Button
           icon="pi pi-download"
           className="p-button-rounded p-button-text p-button-primary"
-          onClick={() => window.open(`http://localhost:5000/${rowData.fileUrl}`, '_blank')}
+          onClick={() => window.open(`${API_BASE_URL}/${rowData.fileUrl}`, '_blank')}
           tooltip="Download"
         />
         <Button
@@ -455,7 +457,7 @@ function DocumentForm({ document, onSave, onCancel }: DocumentFormProps) {
       formDataToSend.append('title', formData.title || '');
       formDataToSend.append('description', description);
 
-      const response = await fetch('http://localhost:5000/api/documents', {
+      const response = await fetch(`${API_BASE_URL}/documents`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
