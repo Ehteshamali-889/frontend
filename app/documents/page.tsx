@@ -303,6 +303,43 @@ export default function Documents() {
   return (
     <div className="documents-container">
       <Toast ref={toast} position="top-right" className="custom-toast-container" />
+      <style jsx global>{`
+        .custom-toast-container {
+          .p-toast {
+            margin-top: 20px;
+            margin-right: 20px;
+          }
+          .p-toast-message {
+            margin-bottom: 10px;
+            padding: 1.25rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          }
+          .p-toast-message-content {
+            padding: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+          }
+          .p-toast-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+          }
+          .p-toast-message-text {
+            flex: 1;
+          }
+          .p-toast-summary {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+          }
+          .p-toast-detail {
+            margin: 0;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+          }
+        }
+      `}</style>
       <div className="documents-header">
         <h1>Documents</h1>
         <div className="header-actions">
