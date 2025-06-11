@@ -90,11 +90,22 @@ export default function Documents() {
     title: { value: null, matchMode: FilterMatchMode.CONTAINS }
   });
 
+  // Check authentication on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/signin');
+      return;
+    }
+    fetchDocuments();
+  }, [router]);
+
   const fetchDocuments = async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('No authentication token found');
+        router.push('/signin');
+        return;
       }
 
       const response = await fetch(`${API_BASE_URL}/documents`, {
@@ -121,7 +132,8 @@ export default function Documents() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('No authentication token found');
+        router.push('/signin');
+        return;
       }
 
       const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
@@ -148,7 +160,8 @@ export default function Documents() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('No authentication token found');
+        router.push('/signin');
+        return;
       }
 
       const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
@@ -221,7 +234,8 @@ export default function Documents() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        throw new Error('No authentication token found');
+        router.push('/signin');
+        return;
       }
 
       const response = await fetch(`${API_BASE_URL}/documents/${document.id}`, {
@@ -244,8 +258,8 @@ export default function Documents() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     router.push('/signin');
   };
 
@@ -257,12 +271,6 @@ export default function Documents() {
           className="p-button-rounded p-button-text p-button-info"
           onClick={() => handleViewDetails(rowData)}
           tooltip="View Details"
-        />
-        <Button
-          icon="pi pi-download"
-          className="p-button-rounded p-button-text p-button-primary"
-          onClick={() => window.open(`${API_BASE_URL}/${rowData.fileUrl}`, '_blank')}
-          tooltip="Download"
         />
         <Button
           icon="pi pi-file"
@@ -317,7 +325,6 @@ export default function Documents() {
         value={documents}
         paginator
         rows={10}
-        rowsPerPageOptions={[5, 10, 25]}
         filters={filters}
         filterDisplay="menu"
         globalFilterFields={['title', 'description']}
