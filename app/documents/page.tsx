@@ -325,8 +325,6 @@ export default function Documents() {
         value={documents}
         paginator
         rows={10}
-        filters={filters}
-        filterDisplay="menu"
         globalFilterFields={['title', 'description']}
         header={header}
         emptyMessage="No documents found."
@@ -335,7 +333,7 @@ export default function Documents() {
         stripedRows
         loading={loading}
       >
-        <Column field="title" header="Title" sortable filter style={{ width: '25%' }} />
+        <Column field="title" header="Title" sortable style={{ width: '25%' }} />
         <Column field="description" header="Description" sortable style={{ width: '25%' }} />
         <Column 
           field="fileSize" 
